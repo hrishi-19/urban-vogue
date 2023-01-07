@@ -1,10 +1,9 @@
 const router=require('express').Router()
 
 
-router.get('/usertest',(req,res)=>{
-    res.send("usertest")
+router.get('/',(req,res)=>{
+    res.send("cart")
 })
-
 
 
 module.exports=router
