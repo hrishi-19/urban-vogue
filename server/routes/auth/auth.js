@@ -1,14 +1,11 @@
 const router=require('express').Router()
-const User=require('../../models/User')
+const login = require('../../controller/auth/login')
+const register=require('../../controller/auth/register')
 
-router.post('/register',(req,res)=>{
-    const{userName,email,password}=req.body
-    const newUser=new User({
-        userName,
-        email,
-        password
-    })
-})
+
+
+router.post('/register',register)
+router.post('/login',login)
 
 
 
