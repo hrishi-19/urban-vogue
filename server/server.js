@@ -5,6 +5,8 @@ const userRoute=require("./routes/user/user")
 const cartRoute=require('./routes/cart/cart')
 const orderRoute=require('./routes/order/order')
 const productRoute=require('./routes/product/product')
+const authRoute=require('./routes/auth/auth')
+
 
 // initialize express app
 const app=express()
@@ -18,6 +20,7 @@ mongoose.connect(process.env.CONNECTION_URL)
 
 app.use(express.json())
 
+app.use('/auth',authRoute)
 app.use('/api/users',userRoute)
 app.use('/api/cart',cartRoute)
 app.use('/api/product',productRoute)
