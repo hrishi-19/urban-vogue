@@ -6,7 +6,7 @@ const { updateUser, deleteUser, getSingleUser, getAllUsers, getStats } = require
 const User = require('../../models/User')
 
 router.put('/:id',verfifyTokenAndAuth,updateUser)
-router.delete('/:id',verfifyTokenAndAuth,deleteUser)
+router.delete('/:id',verfifyTokenAndAdmin,deleteUser)
 
 router.get('/find/:id',verfifyTokenAndAdmin,getSingleUser)
 
