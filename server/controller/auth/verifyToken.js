@@ -17,6 +17,7 @@ const verifyToken=(req,res,next)=>{
 
 const verfifyTokenAndAuth=(req,res,next)=>{
     verifyToken(req,res,()=>{
+        console.log(req)
         if(req.user.id===req.params.id || req.user.isAdmin){
             next()
         }else{
@@ -36,4 +37,4 @@ const verfifyTokenAndAdmin=(req,res,next)=>{
     })
 }
 
-module.exports={verfifyTokenAndAuth,verfifyTokenAndAdmin}
+module.exports={verifyToken,verfifyTokenAndAuth,verfifyTokenAndAdmin}

@@ -33,6 +33,26 @@ const deleteCart=async(req,res)=>{
         res.status(500).json(err)
     }
 }
+const getCart=async(req,res)=>{
+    try{
+        const cart=await Cart.findOne({userId:req.params.userid})
+        res.status(200).json(cart)
+
+    }
+    catch(err){
+        res.status(500).json(err)
+    }
+}
+const getAll=async(req,res)=>{
+    try{
+        const carts=await Cart.find()
+        res.status(200).json(carts)
+
+    }
+    catch(err){
+        res.status(500).json(err)
+    }
+}
 
 
-module.exports={createCart,updateCart,deleteCart}
+module.exports={createCart,updateCart,deleteCart,getCart,getAll}
