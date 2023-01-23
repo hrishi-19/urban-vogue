@@ -4,7 +4,7 @@ import { categories } from '../data'
 import CategoryItem from './CategoryItem'
 
 const Container=styled.div`
-width:100vw;
+max-width:100%;
 display:flex;
 padding:10px;
 `
