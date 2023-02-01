@@ -84,17 +84,6 @@ export const popularproducts=[
         title:"winter",
         img:"https://i.ibb.co/vP7gxdV/girl.jpg",
         desc:"lorem epsum"
-    },{
-        id:3,
-        title:"winter",
-        img:"https://i.ibb.co/vP7gxdV/girl.jpg",
-        desc:"lorem epsum"
-    },
-    {
-        id:4,
-        title:"winter",
-        img:"https://i.ibb.co/vP7gxdV/girl.jpg",
-        desc:"lorem epsum"
     }
 ]
 
