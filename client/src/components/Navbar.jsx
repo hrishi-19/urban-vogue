@@ -56,12 +56,6 @@ const Navbar = () => {
     return (
         <Container>
             <Wrapper>
-                <Left><Language>EN</Language>
-                    <SearchContainer>
-                        <Input />
-                        <SearchIcon  style={{fontSize:"16px",color:"gray"}}/>
-                    </SearchContainer>
-                </Left>
                 <Center><Logo>Urban Vogue</Logo></Center>
                 <Right>
                     <MenuItem>Register</MenuItem>

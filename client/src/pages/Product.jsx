@@ -117,7 +117,7 @@ const Product = () => {
                     </FilterContainer>
                     <AddContainer>
                     <AmountContainer>
-                   <RemoveIcon onc/>
+                   <RemoveIcon/>
                     <Amount>{amount}</Amount>
                     <AddIcon/>
                     </AmountContainer>
