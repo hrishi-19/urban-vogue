@@ -1,19 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import styled from 'styled-components'
 import Flash from '../components/Flash'
 import Navbar from '../components/Navbar'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { useParams } from 'react-router-dom'
+import { addProduct } from '../store/cart'
+import { publicURL } from '../axiosRequest'
+import { useDispatch } from 'react-redux'
 const Container = styled.div``
 const Wrapper = styled.div`
 padding:50px;
 display:flex;
 `
 const ImgContainer = styled.div`
-flex:1;`
-const InfoContainer = styled.div`
 flex:1;
+`
+const InfoContainer = styled.div`
+flex:2;
 padding:0 50px;
 `
 const Title = styled.h1`
@@ -28,6 +33,7 @@ font-weight:500;
 `
 const FilterContainer = styled.div`
 display:flex;
+
 justify-content:space-between;
 width:50%;
 margin:30px 0px;
@@ -80,8 +86,46 @@ const Button=styled.button``
 
 
 const Product = () => {
-    const[amount,setAmount]=useState(1)
-    
+    const{id}=useParams();
+    const[quantity,setQuantity]=useState(1)
+    const[product,setProduct]=useState({})
+    const[colorArray,setcolorArray]=useState([])
+    const[size,setSize]=useState(null)
+    const[color,setColor]=useState(null)
+    const dispatch=useDispatch()
+
+    useEffect(()=>{
+        const getProduct=async()=>{
+           try{
+            const response=await publicURL.get(`product/find/${id}`)
+            setProduct(response.data)
+            setcolorArray(response.data.color)
+           
+           }
+           catch(err){
+            console.log(err.message)
+           }
+        }
+        getProduct()
+    },[id])
+    const handleQuantity=(type)=>{
+
+        if(type==="dec"){
+            quantity>1 && setQuantity(quantity-1)
+        }else{
+            setQuantity(quantity+1)
+        }
+    }
+    const handleClick=()=>{
+        //update cart
+        console.log("clicked")
+        dispatch(
+            addProduct({...product,quantity,color,size})
+        )
+        
+        
+    }
+   
 
     return (
         <Container>
@@ -89,23 +133,21 @@ const Product = () => {
             <Flash />
             <Wrapper>
                 <ImgContainer>
-                    <img src="https://i.ibb.co/vP7gxdV/girl.jpg" />
+                    <img src={product.img} width="100%" height="100%" />
                 </ImgContainer>
                 <InfoContainer>
-                    <Title>denim shirt</Title>
-                    <Desc>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum iste dolorum assumenda impedit molestias praesentium nesciunt?</Desc>
-                    <Price>10</Price>
+                    <Title>{product.title}</Title>
+                    <Desc><em>{product.desc}</em></Desc>
+                    <Price>RS. {product.price}</Price>
                     <FilterContainer>
                         <Filter>
                             <FilterText>Color</FilterText>
-                            <FilterColor color="black"></FilterColor>
-                            <FilterColor color="blue"></FilterColor>
-                            <FilterColor color="grey"></FilterColor>
+                            {colorArray.map(val=><FilterColor key={val}color={val} onClick={()=>setColor(val)}></FilterColor>)}
 
                         </Filter>
                         <Filter>
                         <FilterText>Size</FilterText>
-                        <FilterSize>
+                        <FilterSize onChange={(e)=>setSize(e.target.value)}>
                         <FilterSizeOption>XS</FilterSizeOption>
                         <FilterSizeOption>S</FilterSizeOption>
                         <FilterSizeOption>M</FilterSizeOption>
@@ -117,11 +159,11 @@ const Product = () => {
                     </FilterContainer>
                     <AddContainer>
                     <AmountContainer>
-                   <RemoveIcon onc/>
-                    <Amount>{amount}</Amount>
-                    <AddIcon/>
+                   <div onClick={()=>handleQuantity("dec")}><RemoveIcon/></div>
+                    <Amount>{quantity}</Amount>
+                    <div onClick={()=>handleQuantity("inc")}><AddIcon/></div>
                     </AmountContainer>
-                    <Button>Add to Cart</Button>
+                    <Button onClick={handleClick}>Add to Cart</Button>
                     </AddContainer>
                 </InfoContainer>
             </Wrapper>

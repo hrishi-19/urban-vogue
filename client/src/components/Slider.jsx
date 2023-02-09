@@ -88,7 +88,7 @@ const Slider = () => {
         {
           data.map(item=>{
             return(
-              <Slide id={item.id}>
+              <Slide id={item.id} key={item.id}>
               <ImageContainer><img src={item.img} width="100%" height="100%" /></ImageContainer>
               <InfoContainer>
               <Title>{item.title}</Title><Desc>{item.desc}</Desc>

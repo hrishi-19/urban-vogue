@@ -7,8 +7,8 @@ const router=require('express').Router()
 router.post('/create',verfifyTokenAndAdmin,createProduct)
 router.put('/:id',verfifyTokenAndAdmin,updateProduct)
 router.delete('/:id',verfifyTokenAndAdmin,deleteProduct)
-router.get('/find/:id',verifyToken,getSingleProduct)
-router.get('/',verifyToken,getAllProducts)
+router.get('/find/:id',getSingleProduct)
+router.get('/',getAllProducts)
 
 
 module.exports=router
