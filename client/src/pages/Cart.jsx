@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Flash from '../components/Flash'
 import Navbar from '../components/Navbar'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { useSelector } from 'react-redux';
+import StripeCheckout from "react-stripe-checkout"
+import { useHistory } from 'react-router-dom';
+
 const Container = styled.div`
 width:100vw;
 background-color:#fafafa;
@@ -28,16 +32,16 @@ color:#fff;
 const BottomButton = styled.button``
 const Bottom = styled.div`
 display:flex;
-justify-content:space-between;
-padding:20px 10px;`
+justify-content:space-beetween;
+`
 const TopTexts = styled.div``
 const TopText = styled.span``
 const Summary = styled.div`
-flex:1;
 border:0.5px solid lightgray;
 border-radius:10px;
 padding:20px;
 height:50vh;
+flex:1;
 
 `
 const SummaryTtile = styled.h1`
@@ -58,25 +62,64 @@ padding:10px 15px;
 color:#fff;
 `
 const Info = styled.div`
-flex:3;
+flex:2;
 display:flex;
+flex-direction:column;
 justify-content:space-between;
 
 `
 const Product = styled.div`
 display:flex;
 justify-content:space-between;
+margin-top:15px;
+padding:5px 20px;
+
 `
-const ProductDetail = styled.div``
-const PriceDetail = styled.div``
-const Details = styled.div``
+const ProductDetail = styled.div`
+display:flex;
+`
+const PriceDetail = styled.div`
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+`
+const Details = styled.div`
+display:flex;
+flex-direction:column;
+`
 const Image = styled.img``
-const ProdctColor = styled.span``
-const ProdctId = styled.span``
-const ProdctName = styled.span``
-const ProdctSize = styled.span``
+const ProdctColor = styled.div`
+margin-left:15px;
+height:30px;
+width:30px;
+border-radius:50%;
+background-color:${props=>props.color};
+`
+const ProdctId = styled.span`
+padding:5px ;
+`
+const ProdctName = styled.span`
+padding:5px ;
+`
+const ProdctSize = styled.span`
+padding:5px ;
+`
+
+const KEY="pk_test_51MOlRQSHMvjdryIQO6NjHfTA2sFcm81JbrxpzhFl6QmYlVcJDoAztaFUjTeqWQcLgF7ak5pv7Uk6h7dFzvUJAWZk000CcznUBY"
 const ProductAmountContainer = styled.div``
-const Cart = () => {
+const Cart = (props) => {
+    const cart=useSelector(state=>state.cart)
+    
+
+    const [stripeToken,setStripeToken]=useState(null)
+    const onToken=(token)=>{
+        setStripeToken(token)
+   
+    
+    }
+    console.log(props.history)
+    console.log(stripeToken)
     return (
         <Container>
             <Navbar />
@@ -95,30 +138,41 @@ const Cart = () => {
                 </Top>
                 <Bottom>
                     <Info>
-                        <Product>
+                        {
+                            cart.products.map(product=>{
+                                return(
+                                    <Product>
                             <ProductDetail>
-                            <Image></Image>
+                            
+                            <img src={product.img} height="175px" width="175px"/>
+                            
                             <Details>
-                                <ProdctName>Shoe</ProdctName>
-                                <ProdctId>123</ProdctId>
-                                <ProdctColor></ProdctColor>
-                                <ProdctSize>S</ProdctSize>
+                                <ProdctId>ID:{product._id}</ProdctId>
+                                <ProdctName>{product.title}</ProdctName>
+                               
+                                 <div style={{display:"flex",alignItems:"center",padding:"5px"}}>color:<ProdctColor color={product.color} /></div>
+                                <ProdctSize> size :{product.size}</ProdctSize>
                             </Details>
                             </ProductDetail>
                             <PriceDetail>
                                <ProductAmountContainer>
                                 <AddIcon/>
-                                100
+                                {product.quantity   }
                                 <RemoveIcon/>
                                </ProductAmountContainer>
+                                Rs.{product.price*product.quantity}
                             </PriceDetail>
                         </Product>
+                                )
+
+                            })
+                        }
                     </Info>
                     <Summary>
                         <SummaryTtile>Order Summary</SummaryTtile>
                         <SummaryItem>
                         <SummaryItemText>SubTotal</SummaryItemText>
-                        <SummaryItemPrice>$30.00</SummaryItemPrice>
+                        <SummaryItemPrice>Rs {cart.totalPrice}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem>
                         <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -130,9 +184,20 @@ const Cart = () => {
                         </SummaryItem>
                         <SummaryItem type="total">
                         <SummaryItemText >Total</SummaryItemText>
-                        <SummaryItemPrice>$30.00</SummaryItemPrice>
+                        <SummaryItemPrice>Rs.{cart.totalPrice}</SummaryItemPrice>
                         </SummaryItem>
+                        <StripeCheckout
+                        name='Urban Vogue'
+                        image='https://i.ibb.co/GMx8sMK/img.png'
+                        billingAddress
+                        shippingAddress
+                        description={`your total is ${cart.totalPrice}`}
+                        amount={cart.totalPrice*100}
+                        token={onToken}
+                        stripeKey={KEY}
+                        >
                         <Button>Checkout Now</Button>
+                        </StripeCheckout>
                     </Summary>
                 </Bottom>
             </Wrapper>

@@ -9,13 +9,13 @@ import Slider from '../components/Slider'
 const HomePage = () => {
   return (
     <>
-    <Flash/>
-    <Navbar/>
-    <Slider/>
-    <Catergories/>
-    <Products/>
-    <NewsLetter/>
-   
+      <Flash />
+      <Navbar />
+      <Slider />
+      <Catergories />
+      <Products/>
+      <NewsLetter />
+
     </>
   )
 }
