@@ -20,12 +20,15 @@ const userSlice=createSlice({
             state.isFetching=false;
             state.error=true
             
+        },
+        signOut:(state,action)=>{
+            state.currentuser=action.payload
         }
 
     }
 
 })
 
-export const {loginStart,loginFailure,loginSuccess} =userSlice.actions
+export const {loginStart,loginFailure,loginSuccess,signOut} =userSlice.actions
 
 export default userSlice.reducer

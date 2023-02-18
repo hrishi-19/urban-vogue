@@ -4,7 +4,7 @@ const BASEURL="/api/"
 export const publicURL=axios.create({
     baseURL:BASEURL
 })
-const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmE2ZGY0YWMyNzY0YjgzZjJhNTY5NCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3NTc3ODAwMSwiZXhwIjoxNjc2MDM3MjAxfQ.L7Nv5DBjfUEG_fgs0_s1Y8JmZkXjbk4XQDglJ01Ecpw"
+const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZWRkZGU4MWI2ZjllZmFlZTA1MGRiOCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NzY3MDMxMTIsImV4cCI6MTY3Njk2MjMxMn0.geP6kZ8ymVAsr4IqCGBi0kVWIff-2fyYDryI7ofwWqw"
 
 export const userRequest=axios.create({
     baseURL:BASEURL,

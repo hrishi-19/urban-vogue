@@ -90,6 +90,7 @@ const Product = () => {
     const[quantity,setQuantity]=useState(1)
     const[product,setProduct]=useState({})
     const[colorArray,setcolorArray]=useState([])
+    const[sizeArray,setsizeArray]=useState([])
     const[size,setSize]=useState(null)
     const[color,setColor]=useState(null)
     const dispatch=useDispatch()
@@ -100,6 +101,9 @@ const Product = () => {
             const response=await publicURL.get(`product/find/${id}`)
             setProduct(response.data)
             setcolorArray(response.data.color)
+            setsizeArray(response.data.size)
+            setSize(response.data.size[0])
+           
            
            }
            catch(err){
@@ -119,6 +123,7 @@ const Product = () => {
     const handleClick=()=>{
         //update cart
         console.log("clicked")
+    
         dispatch(
             addProduct({...product,quantity,color,size})
         )
@@ -148,12 +153,12 @@ const Product = () => {
                         <Filter>
                         <FilterText>Size</FilterText>
                         <FilterSize onChange={(e)=>setSize(e.target.value)}>
-                        <FilterSizeOption>XS</FilterSizeOption>
-                        <FilterSizeOption>S</FilterSizeOption>
-                        <FilterSizeOption>M</FilterSizeOption>
-                        <FilterSizeOption>L</FilterSizeOption>
-                        <FilterSizeOption>XL</FilterSizeOption>
-                        </FilterSize>
+                        {
+                            sizeArray.map(val=> <FilterSizeOption>{val}</FilterSizeOption>)
+                        }
+                       
+                       
+                         </FilterSize>
 
                     </Filter>
                     </FilterContainer>
