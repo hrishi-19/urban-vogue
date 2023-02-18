@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Flash from '../components/Flash'
 import Navbar from '../components/Navbar'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import StripeCheckout from "react-stripe-checkout"
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { addProduct, removeProduct } from '../store/cart';
+import { userRequest } from '../axiosRequest';
 
 const Container = styled.div`
 width:100vw;
@@ -111,15 +113,41 @@ const ProductAmountContainer = styled.div``
 const Cart = (props) => {
     const cart=useSelector(state=>state.cart)
     
+    console.log(cart)
+    const dispath=useDispatch()
+    const navigate=useNavigate()
+    
 
     const [stripeToken,setStripeToken]=useState(null)
     const onToken=(token)=>{
         setStripeToken(token)
+    
    
     
     }
-    console.log(props.history)
-    console.log(stripeToken)
+   useEffect(()=>{
+    const makereq=async()=>{
+        try{
+            const response= await userRequest.post("stripe/payment",{
+                tokenId:stripeToken.id,amount:cart.totalPrice*100
+            })
+            console.log(response)
+            navigate('/success',{state:"hrishikesk"})
+
+        }catch(e){
+                console.log(e)
+                navigate('/success',{state:cart.products})
+        }
+    }
+    stripeToken && makereq()
+   },[stripeToken,cart.totalPrice,navigate])
+   const addItem=(item,quantity)=>{
+    dispath(addProduct({...item,quantity}))
+   }
+   const removeItem=(id)=>{
+        console.log(id)
+        dispath(removeProduct(id))
+   }
     return (
         <Container>
             <Navbar />
@@ -156,9 +184,10 @@ const Cart = (props) => {
                             </ProductDetail>
                             <PriceDetail>
                                <ProductAmountContainer>
-                                <AddIcon/>
+                                <span onClick={()=>addItem(product,1)}><AddIcon/></span>
                                 {product.quantity   }
-                                <RemoveIcon/>
+                                <span onClick={()=>removeItem(product._id)}><RemoveIcon/></span>
+                              
                                </ProductAmountContainer>
                                 Rs.{product.price*product.quantity}
                             </PriceDetail>

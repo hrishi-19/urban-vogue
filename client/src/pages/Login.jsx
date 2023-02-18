@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { login } from '../store/apiCalls'
 const Container = styled.div`
@@ -35,14 +36,17 @@ const Link=styled.a``
 
 const Login = () => {
   const dispatch=useDispatch()
-  const user=useSelector(state=>state.User)
-  console.log(user)
+
   const[userName,setUserName]=useState("")
   const[password,setpasswd]=useState("")
-  const{isFetching,error}=useSelector(state=>state.User)
+  const{isFetching,error,currentuser}=useSelector(state=>state.user)
+  const navigate=useNavigate()
+
   const handleLogin=(e)=>{
     e.preventDefault()
+    console.log(currentuser)
     login(dispatch,{userName,password})
+    navigate('/')
     
     
 
