@@ -7,6 +7,7 @@ const cartRoute=require('./routes/cart/cart')
 const orderRoute=require('./routes/order/order')
 const productRoute=require('./routes/product/product')
 const authRoute=require('./routes/auth/auth')
+const stripeRouter=require('./routes/stripe/stripe')
 
 
 // initialize express app
@@ -29,6 +30,7 @@ app.use('/api/users',userRoute)
 app.use('/api/cart',cartRoute)
 app.use('/api/product',productRoute)
 app.use('/api/order',orderRoute)
+app.use('/api/stripe',stripeRouter)
 
 
 
