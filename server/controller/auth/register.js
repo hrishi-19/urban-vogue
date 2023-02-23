@@ -10,7 +10,8 @@ const register=async(req,res)=>{
     })
     try{
        const user= await  newUser.save()
-       res.status(201).json(user)
+       const{password,...others}=user._doc
+       res.status(201).json(others)
     }
     catch(err){
         res.status(500).json(err)
