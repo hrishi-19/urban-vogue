@@ -14,6 +14,7 @@ const Products = ({cat,filters,sort}) => {
   const[products,setproducts]=useState([])
   // const[filteredproducts,setfilteredproducts]=useState([])
 
+
   useEffect(()=>{
     const getProducts=async ()=>{
       try{
@@ -29,26 +30,27 @@ const Products = ({cat,filters,sort}) => {
     getProducts()
   },[cat])
   useEffect(()=>{
-    // cat && setfilteredproducts(
+    // cat && setproducts(
     //   products.map((item)=>
     //   Object.entries(filters).every(([key,value])=>
     //   item[key].includes(value)))
       
     // )
+    // console.log(filters)
+    // Object.entries(filters).every(([key,value])=>
+    // console.log(key,value))
    
    
   
-  },[products,cat,filters])
+  },[cat,filters])
   useEffect(()=>{
+    switch(sort){
+      case "Newest":setproducts((prev)=>[...prev].sort((a,b)=>a.createdAt-b.createdAt)) 
+                      break;
+      case "desc":  setproducts((prev)=>[...prev].sort((a,b)=>b.price-a.price))
+      case "asc" : console.log(sort)
+    }
       
-      if(sort==="Newest"){
-        setproducts((prev)=>[...prev].sort((a,b)=>a.createdAt-b.createdAt))
-      }
-      else if(sort==="desc"){
-        setproducts((prev)=>[...prev].sort((a,b)=>b.price-a.price))
-      }else if(sort==="asc"){
-        setproducts((prev)=>[...prev].sort((a,b)=>b.price-a.price))
-      }
      
   },[sort])
   return (

@@ -34,7 +34,9 @@ const deleteOrder=async(req,res)=>{
     }
 }
 const getOrders=async(req,res)=>{
+    console.log(req.params.userid)
     try{
+       
         const Orders=await Order.find({userId:req.params.userid})
         res.status(200).json(Orders)
 

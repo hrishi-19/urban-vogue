@@ -6,7 +6,7 @@ const router=require('express').Router()
 router.get('/',verfifyTokenAndAdmin,getAll)
 router.post('/create',verifyToken,createOrder)
 router.put('/:id',verfifyTokenAndAdmin,updateOrder)
-router.get('/find/:userid',verfifyTokenAndAuth,getOrders)
+router.get('/find/:userid',verifyToken,getOrders)
 router.delete('/:id',verfifyTokenAndAdmin,deleteOrder)
 router.get('/income',verfifyTokenAndAdmin,getIncome)
 

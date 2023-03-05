@@ -41,10 +41,16 @@ const cartSlice=createSlice({
                 state.totalPrice-=item.price
             }
             
+        },
+        clearAll:(state,action)=>{
+            state.products=action.payload.products
+            state.quantity=action.payload.quantity
+            state.totalPrice=action.payload.totalPrice
+
         }
     }
 })
 
-export const {addProduct,removeProduct} =cartSlice.actions
+export const {addProduct,removeProduct,clearAll} =cartSlice.actions
 
 export default cartSlice.reducer

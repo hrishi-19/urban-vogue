@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useDispatch, useSelector } from 'react-redux';
 import StripeCheckout from "react-stripe-checkout"
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { addProduct, removeProduct } from '../store/cart';
 import { userRequest } from '../axiosRequest';
 
@@ -132,11 +132,11 @@ const Cart = (props) => {
                 tokenId:stripeToken.id,amount:cart.totalPrice*100
             })
             console.log(response)
-            navigate('/success',{state:"hrishikesk"})
+            navigate('/success')
 
         }catch(e){
                 console.log(e)
-                navigate('/success',{state:cart.products})
+                navigate('/success')
         }
     }
     stripeToken && makereq()
@@ -152,16 +152,16 @@ const Cart = (props) => {
         <Container>
             <Navbar />
             <Flash />
-            <Wrapper>
+            {cart.products.length>0?<Wrapper>
                 <Title>Your Cart</Title>
                 <Top>
-                    <TopButton>Contiue Shopping</TopButton>
+                    <Link to="/"><TopButton>Contiue Shopping</TopButton></Link>
                     <TopTexts>
                         <TopText>Shopping bag(2)</TopText>
                         <TopText>Your wishList</TopText>
                     </TopTexts>
 
-                    <TopButton>Checkout Now</TopButton>
+                   
 
                 </Top>
                 <Bottom>
@@ -229,7 +229,7 @@ const Cart = (props) => {
                         </StripeCheckout>
                     </Summary>
                 </Bottom>
-            </Wrapper>
+            </Wrapper>:<h1>Your cart is empty</h1>}
         </Container>
     )
 }
